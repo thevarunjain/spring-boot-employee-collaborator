@@ -1,6 +1,7 @@
 package edu.sjsu.cmpe275.domain.entity;
 
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -12,7 +13,8 @@ import javax.validation.constraints.Size;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-class Address {
+@Builder
+public class Address {
 
     @Column(name = "street")
     @Size(max = 100)
