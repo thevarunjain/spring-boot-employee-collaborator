@@ -1,4 +1,5 @@
 package edu.sjsu.cmpe275.web.exception;
+import edu.sjsu.cmpe275.domain.entity.Employer;
 
 public class ConstraintViolationException extends Exception{
     public static class EmployeeNotFoundException extends RuntimeException {
@@ -8,8 +9,8 @@ public class ConstraintViolationException extends Exception{
     }
 
     public static class EmployerNotFoundException extends RuntimeException {
-        EmployerNotFoundException(Long id) {
-            super("Could not find employer " + id);
+        EmployerNotFoundException(Employer employer) {
+            super("Could not find employer " + employer.getId());
         }
     }
 }
