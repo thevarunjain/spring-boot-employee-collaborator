@@ -6,4 +6,10 @@ public class ConstraintViolationException extends Exception{
             super("Could not find employee " + id);
         }
     }
+
+    public static class EmployerNotFoundException extends RuntimeException {
+        EmployerNotFoundException(Long id) {
+            super("Could not find employer " + id);
+        }
+    }
 }
