@@ -4,7 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import edu.sjsu.cmpe275.Main;
 import edu.sjsu.cmpe275.domain.entity.Employee;
 import edu.sjsu.cmpe275.domain.repository.EmployeeRepository;
-import edu.sjsu.cmpe275.web.model.response.CreateEmployeeResponseDto;
+import edu.sjsu.cmpe275.web.model.response.EmployeeDto;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,15 +40,15 @@ public class EmployeeControllerIntegrationTest {
 
     @Test
     public void createEmployee_on_valid_parameter_should_save_employee() throws Exception {
-        final MvcResult mvcResult = mockMvc.perform(post("/employee?name=rahul&email=pawarrb@gmail.com"))
+        final MvcResult mvcResult = mockMvc.perform(post("/employee?name=rahul&email=pawarrb@gmail.com&employerId=100"))
                 .andExpect(status().isCreated())
                 .andDo(print())
                 .andExpect(jsonPath("$.id", is(notNullValue())))
                 .andReturn();
 
-        final CreateEmployeeResponseDto employeeResponseDto = objectMapper.readValue(
+        final EmployeeDto employeeResponseDto = objectMapper.readValue(
                 mvcResult.getResponse().getContentAsString(),
-                CreateEmployeeResponseDto.class
+                EmployeeDto.class
         );
 
         final Optional<Employee> employee = employeeRepository.findById(employeeResponseDto.getId());
@@ -57,8 +57,27 @@ public class EmployeeControllerIntegrationTest {
     }
 
     @Test
+    public void createEmployee_on_invalid_email_should_return_bad_request() throws Exception {
+        mockMvc.perform(post("/employee?name=rahul&email=pawarrbgmail.com&employerId=100"))
+                .andExpect(status().isBadRequest())
+                .andDo(print());
+    }
+
+    @Test
+    public void createEmployee_with_existing_email_should_return_bad_request() throws Exception {
+        mockMvc.perform(post("/employee?name=rahul&email=pawarrb@gmail.com&employerId=100"))
+                .andExpect(status().isCreated())
+                .andDo(print());
+
+        mockMvc.perform(post("/employee?name=mayur&email=pawarrb@gmail.com&employerId=100"))
+                .andExpect(status().isBadRequest())
+                .andDo(print());
+    }
+
+    @Test
     public void createEmployee_on_null_name_should_return_bad_request() throws Exception {
-        mockMvc.perform(post("/employee?name=&email=pawarrb@gmail.com"))
+        mockMvc.perform(post("/employee?name=&email=pawarrb@gmail.com&employerId=100"))
+                .andDo(print())
                 .andExpect(status().isBadRequest());
     }
 }

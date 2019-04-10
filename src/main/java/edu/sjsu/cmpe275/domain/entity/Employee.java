@@ -8,6 +8,8 @@ import lombok.NoArgsConstructor;
 import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotNull;
+import java.util.List;
+import java.util.Objects;
 
 
 @Entity
@@ -15,6 +17,7 @@ import javax.validation.constraints.NotNull;
 @NoArgsConstructor
 @Builder
 @Data
+@Table(name = "employee")
 public class Employee {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -26,7 +29,7 @@ public class Employee {
 
     @NotNull
     @Email
-    @Column(name = "email", nullable = false)
+    @Column(name = "email", nullable = false, unique = true)
     private String email;
 
     @Column(name = "title")
@@ -35,6 +38,20 @@ public class Employee {
     @Embedded
     private Address address;
 
+    @ManyToOne(cascade = {CascadeType.ALL})
+    @JoinColumn(name = "manager_id")
+    private Employee manager;
+
+    @OneToMany(mappedBy = "manager")
+    private List<Employee> reports;
+
+    public Employee update(final Employee employee) {
+        if (Objects.nonNull(employee.getName())) {
+            this.setName(employee.getName());
+        }
+
+        return employee;
+    }
 }
 
 
