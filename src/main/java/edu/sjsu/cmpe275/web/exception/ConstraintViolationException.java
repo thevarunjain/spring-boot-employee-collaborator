@@ -12,13 +12,13 @@ public class ConstraintViolationException extends RuntimeException {
     private String parameter;
 
     public ConstraintViolationException(final String parameter) {
-        super("Request failed constaint violation.");
+        super("Request failed constraint violation.");
         this.parameter = parameter;
     }
 
-    public static class EmployerNotFoundException extends RuntimeException {
-        EmployerNotFoundException(Employer employer) {
-            super("Could not find employer " + employer.getId());
-        }
-    }
+//    public static class EmployerNotFoundException extends RuntimeException {
+//        EmployerNotFoundException(Employer employer) {
+//            super("Could not find employer " + employer.getId());
+//        }
+//    }
 }
