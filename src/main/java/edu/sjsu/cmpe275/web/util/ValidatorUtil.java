@@ -7,13 +7,9 @@ import java.util.List;
 import java.util.Map;
 
 public class ValidatorUtil {
-    public static void validateParam(final Map<String, String> param, final String parameter) throws ConstraintViolationException {
-        if (!param.containsKey(parameter) || StringUtils.isEmpty(param.get(parameter))) {
-            throw new ConstraintViolationException(parameter);
-        }
-    }
 
-    public static void validateParams(final Map<String, String> params, final List<String> parameters) throws ConstraintViolationException {
+    public static void validateParams(final Map<String, String> params, final List<String> parameters)
+            throws ConstraintViolationException {
         for (final String parameter : parameters) {
             if (!params.containsKey(parameter) || StringUtils.isEmpty(params.get(parameter))) {
                 throw new ConstraintViolationException(parameter);
@@ -21,7 +17,9 @@ public class ValidatorUtil {
         }
     }
 
-    public static void validateRestrictedParam(final Map<String, String> params, final List<String> restrictedParams) throws ConstraintViolationException {
+    public static void validateRestrictedParam(final Map<String, String> params,
+                                               final List<String> restrictedParams)
+            throws ConstraintViolationException {
         for (final String parameter : restrictedParams) {
             if (params.containsKey(parameter))
                 throw new ConstraintViolationException();
