@@ -18,7 +18,7 @@ public class EmployerMapper {
         return EmployerDto.builder()
                 .id(employer.getId())
                 .name(employer.getName())
-                .description((employer.getDescription()))
+                .description(employer.getDescription())
                 .build();
     }
 }

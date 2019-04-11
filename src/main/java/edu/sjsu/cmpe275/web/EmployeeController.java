@@ -3,6 +3,7 @@ package edu.sjsu.cmpe275.web;
 
 import edu.sjsu.cmpe275.domain.entity.Employee;
 import edu.sjsu.cmpe275.domain.exception.EmployeeNotFoundException;
+import edu.sjsu.cmpe275.domain.exception.EmployerNotFoundException;
 import edu.sjsu.cmpe275.service.EmployeeService;
 import edu.sjsu.cmpe275.web.exception.ConstraintViolationException;
 import edu.sjsu.cmpe275.web.mapper.EmployeeMapper;
@@ -40,16 +41,17 @@ public class EmployeeController {
     @ResponseStatus(HttpStatus.CREATED)
     public EmployeeDto createEmployee(@RequestParam Map<String, String> params)
             throws ConstraintViolationException {
-        // TODO Employer entity must exist
+        // TODO Which type of exception this method should throw
         ValidatorUtil.validateParams(params, Arrays.asList("name", "email", "employerId"));
         ValidatorUtil.validateRestrictedParam(params, Arrays.asList("collaborators", "reports"));
 
-        final Employee employee = employeeService.createEmployee(
+        final Employee createdEmployee = employeeService.createEmployee(
                 employeeMapper.map(params),
-                params.get("managerId")
+                params.get("managerId"),
+                params.get("employerId")
         );
 
-        return employeeMapper.map(employee);
+        return employeeMapper.map(createdEmployee);
     }
 
     @GetMapping(value = "/{id}", produces = "application/json")
@@ -65,38 +67,27 @@ public class EmployeeController {
     @ResponseStatus(HttpStatus.OK)
     public EmployeeDto updateEmployee(@PathVariable @NotNull Long id, @RequestParam Map<String, String> params)
             throws ConstraintViolationException {
-        // TODO All employee fields except collaborators should be passed in as query parameters
         // TODO This operation does not change collaborators
-        // TODO Changing employees employer is allowed
-        // TODO managerId should be from same employer
-        // TODO If employee not found then 404
         // TODO 400 for required parameters missing
-        // TODO Actually update existing employee
 
-        ValidatorUtil.validateParam(params, "email");
-       /* Employee toUpdate = employeeRepository.getOne(id);
-        return employeeMapper.map(
-                employeeRepository.save(employeeMapper.map(params))
-        );*/
+        ValidatorUtil.validateParams(params, Arrays.asList("email"));
+        ValidatorUtil.validateRestrictedParam(params, Arrays.asList("collaborators", "reports"));
 
-        return null;
+        final Employee updatedEmployee = employeeService.updateEmployee(
+                id,
+                employeeMapper.map(params)
+        );
+
+        return employeeMapper.map(updatedEmployee);
 
     }
 
     @DeleteMapping(value = "/{id}", produces = "application/json")
     @ResponseBody
     @ResponseStatus(HttpStatus.OK)
-    public EmployeeDto deleteEmployee(@PathVariable long id) {
-        // TODO If employee not found then 404
-        // TODO if employee has reports then 400
-        /*Employee toDelete = employeeRepository.getOne(id); // TODO GetOne can throw exception
-        if (toDelete.getReports().size() > 0) {
-            System.out.println("Employee has reports");
-        }
-        employeeRepository.deleteById(id);
-        return employeeMapper.map(toDelete);*/
-
-        return null;
+    public EmployeeDto deleteEmployee(@PathVariable @NotNull long id) {
+        final Employee deletedEmployee = employeeService.deleteEmployee(id);
+        return employeeMapper.map(deletedEmployee);
     }
 
     @ExceptionHandler
@@ -118,7 +109,6 @@ public class EmployeeController {
         ) {
             return;
         }
-
         throw e;
     }
 
@@ -126,6 +116,17 @@ public class EmployeeController {
     @ResponseStatus(HttpStatus.NOT_FOUND)
     @ResponseBody
     public ErrorResponseDto handleException(final EmployeeNotFoundException e) {
+        return new ErrorResponseDto(
+                e.getERROR_CODE(),
+                e.getMessage(),
+                e.getId().toString()
+        );
+    }
+
+    @ExceptionHandler
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    @ResponseBody
+    public ErrorResponseDto handleException(final EmployerNotFoundException e) {
         return new ErrorResponseDto(
                 e.getERROR_CODE(),
                 e.getMessage(),

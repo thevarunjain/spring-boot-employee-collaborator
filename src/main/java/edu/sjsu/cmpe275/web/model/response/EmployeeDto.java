@@ -31,4 +31,7 @@ public class EmployeeDto {
     @Singular
     private List<AssociatedEmployeeDetailsDto> reports;
 
+    @JsonProperty(value = "address")
+    private AddressDto address;
+
 }

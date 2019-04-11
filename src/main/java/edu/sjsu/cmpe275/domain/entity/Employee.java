@@ -38,6 +38,11 @@ public class Employee {
     @Embedded
     private Address address;
 
+    // TODO What happens if employer gets deleted (Delete all employees and all association ?)
+    @ManyToOne(cascade = {CascadeType.ALL})
+    @JoinColumn(name = "employer_id")
+    private Employer employer;
+
     @ManyToOne(cascade = {CascadeType.ALL})
     @JoinColumn(name = "manager_id")
     private Employee manager;
@@ -46,10 +51,10 @@ public class Employee {
     private List<Employee> reports;
 
     public Employee update(final Employee employee) {
+        // TODO Update employee details
         if (Objects.nonNull(employee.getName())) {
             this.setName(employee.getName());
         }
-
         return employee;
     }
 }
