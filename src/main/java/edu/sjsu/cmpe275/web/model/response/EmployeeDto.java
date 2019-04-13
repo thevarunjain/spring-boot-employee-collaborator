@@ -24,14 +24,14 @@ public class EmployeeDto {
     @JsonProperty("title")
     private String title;
 
+    @JsonProperty(value = "address")
+    private AddressDto address;
+
     @JsonProperty(value = "manager")
     private AssociatedEmployeeDetailsDto manager;
 
     @JsonProperty(value = "reports")
     @Singular
     private List<AssociatedEmployeeDetailsDto> reports;
-
-    @JsonProperty(value = "address")
-    private AddressDto address;
 
 }

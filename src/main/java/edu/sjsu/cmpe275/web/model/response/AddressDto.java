@@ -20,5 +20,5 @@ public class AddressDto {
     private String state;
 
     @JsonProperty("zip")
-    private int zip;
+    private String zip;
 }

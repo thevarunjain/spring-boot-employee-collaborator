@@ -12,7 +12,7 @@ public class ValidatorUtil {
             throws ConstraintViolationException {
         for (final String parameter : parameters) {
             if (!params.containsKey(parameter) || StringUtils.isEmpty(params.get(parameter))) {
-                throw new ConstraintViolationException(parameter);
+                throw new ConstraintViolationException("Query parameter missing in request", parameter);
             }
         }
     }
@@ -22,7 +22,7 @@ public class ValidatorUtil {
             throws ConstraintViolationException {
         for (final String parameter : restrictedParams) {
             if (params.containsKey(parameter))
-                throw new ConstraintViolationException();
+                throw new ConstraintViolationException("Not allowed as query parameter", parameter);
         }
 
     }

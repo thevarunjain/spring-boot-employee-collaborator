@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import java.util.Objects;
 
 @Entity
 @AllArgsConstructor
@@ -27,4 +28,12 @@ public class Employer {
 
     @Embedded
     private Address address;
+
+    public Employer update(Employer employer) {
+        // TODO Update employer details
+        if (Objects.nonNull(employer.getName())) {
+            this.setName(employer.getName());
+        }
+        return employer;
+    }
 }

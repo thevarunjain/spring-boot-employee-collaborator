@@ -11,7 +11,6 @@ import javax.validation.constraints.NotNull;
 import java.util.List;
 import java.util.Objects;
 
-
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
@@ -38,24 +37,37 @@ public class Employee {
     @Embedded
     private Address address;
 
-    // TODO What happens if employer gets deleted (Delete all employees and all association ?)
-    @ManyToOne(cascade = {CascadeType.ALL})
+    @ManyToOne
     @JoinColumn(name = "employer_id")
     private Employer employer;
 
-    @ManyToOne(cascade = {CascadeType.ALL})
+    @ManyToOne
     @JoinColumn(name = "manager_id")
     private Employee manager;
 
     @OneToMany(mappedBy = "manager")
     private List<Employee> reports;
 
-    public Employee update(final Employee employee) {
-        // TODO Update employee details
-        if (Objects.nonNull(employee.getName())) {
-            this.setName(employee.getName());
+    public Employee update(final Employee fromEmployee) {
+        if (Objects.nonNull(fromEmployee.getName())) {
+            this.setName(fromEmployee.getName());
         }
-        return employee;
+        if (Objects.nonNull(fromEmployee.getEmail())) {
+            this.setEmail(fromEmployee.getEmail());
+        }
+        if (Objects.nonNull(fromEmployee.getTitle())) {
+            this.setTitle(fromEmployee.getTitle());
+        }
+        if (Objects.nonNull(fromEmployee.getAddress())) {
+            Address newAddress = Address.builder()
+                    .street(fromEmployee.getAddress().getStreet())
+                    .city(fromEmployee.getAddress().getCity())
+                    .state(fromEmployee.getAddress().getState())
+                    .zip(fromEmployee.getAddress().getZip())
+                    .build();
+            this.setAddress(newAddress);
+        }
+        return fromEmployee;
     }
 }
 

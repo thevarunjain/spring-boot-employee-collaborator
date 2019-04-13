@@ -19,5 +19,7 @@ public class EmployerDto {
     @JsonProperty("description")
     private String description;
 
+    @JsonProperty(value = "address")
+    private AddressDto address;
 
 }
