@@ -29,19 +29,26 @@ public class EmployerService {
 
     @Transactional
     public Employer updateEmployer(final Long id, final Employer fromRequest) {
-        final Employer existingEmployer = employerRepository.findById(id)
-                .orElseThrow(() -> new EmployerNotFoundException(id));
-        return existingEmployer.update(fromRequest);
+        final Employer existingEmployer = findEmployer(id);
+        existingEmployer.update(fromRequest);
+        return existingEmployer;
     }
 
     @Transactional
     public Employer deleteEmployer(final Long id) {
-        return employerRepository.findById(id)
+        final Employer toDelete = findEmployer(id);
+        // TODO How to throw OperationNotAllowed exception if replying on database to check
+        // if there is still any employee belonging to this employer
+        employerRepository.delete(toDelete);
+        return toDelete;
+        // TODO Unable to use below style
+/*        return employerRepository.findById(id)
                 .map(employer -> {
                     employerRepository.delete(employer);
                     return employer;
                 })
-                .orElseThrow(() -> new EmployerNotFoundException(id));
+                .orElseThrow(() -> new EmployerNotFoundException(id));*/
+
     }
 
 }

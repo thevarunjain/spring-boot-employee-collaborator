@@ -48,7 +48,7 @@ public class Employee {
     @OneToMany(mappedBy = "manager")
     private List<Employee> reports;
 
-    public Employee update(final Employee fromEmployee) {
+    public void update(final Employee fromEmployee) {
         if (Objects.nonNull(fromEmployee.getName())) {
             this.setName(fromEmployee.getName());
         }
@@ -67,7 +67,6 @@ public class Employee {
                     .build();
             this.setAddress(newAddress);
         }
-        return fromEmployee;
     }
 }
 

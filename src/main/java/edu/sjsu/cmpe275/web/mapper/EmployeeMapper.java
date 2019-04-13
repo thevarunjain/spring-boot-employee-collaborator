@@ -2,9 +2,11 @@ package edu.sjsu.cmpe275.web.mapper;
 
 import edu.sjsu.cmpe275.domain.entity.Address;
 import edu.sjsu.cmpe275.domain.entity.Employee;
+import edu.sjsu.cmpe275.domain.entity.Employer;
 import edu.sjsu.cmpe275.web.model.response.AddressDto;
 import edu.sjsu.cmpe275.web.model.response.AssociatedEmployeeDetailsDto;
 import edu.sjsu.cmpe275.web.model.response.EmployeeDto;
+import edu.sjsu.cmpe275.web.model.response.EmployerDto;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
@@ -36,6 +38,7 @@ public class EmployeeMapper {
                 .email(employee.getEmail())
                 .title(employee.getTitle())
                 .address(mapAddress(employee.getAddress()))
+                .employer(mapEmployer(employee.getEmployer()))
                 .manager(mapManager(employee)) // TODO Changed from employee.getManager()
                 .reports(mapReports(employee.getReports()))
                 .build();
@@ -50,7 +53,14 @@ public class EmployeeMapper {
                 .state(address.getState())
                 .zip(address.getZip())
                 .build()
-                : null;
+                : AddressDto.builder().build(); // TODO Case of Address and Manager is different
+    }
+
+    private EmployerDto mapEmployer(final Employer employer) {
+        return EmployerDto.builder()
+                .id(employer.getId())
+                .name(employer.getName())
+                .build();
     }
 
     private AssociatedEmployeeDetailsDto mapManager(final Employee employee) { // TODO Changed from manager
@@ -60,7 +70,7 @@ public class EmployeeMapper {
                 .name(employee.getManager().getName())
                 .title(employee.getManager().getTitle())
                 .build()
-                : null;
+                : null; // TODO AssociatedEmployeeDetailsDto empty object ?
     }
 
     private List<AssociatedEmployeeDetailsDto> mapReports(final List<Employee> employees) {

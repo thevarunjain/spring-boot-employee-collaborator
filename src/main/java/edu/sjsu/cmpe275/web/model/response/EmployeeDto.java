@@ -1,5 +1,6 @@
 package edu.sjsu.cmpe275.web.model.response;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.*;
 
@@ -10,6 +11,7 @@ import java.util.List;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class EmployeeDto {
 
     @JsonProperty("id")
@@ -26,6 +28,9 @@ public class EmployeeDto {
 
     @JsonProperty(value = "address")
     private AddressDto address;
+
+    @JsonProperty(value = "employer")
+    private EmployerDto employer;
 
     @JsonProperty(value = "manager")
     private AssociatedEmployeeDetailsDto manager;

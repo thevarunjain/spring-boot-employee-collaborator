@@ -34,6 +34,7 @@ public class EmployeeService {
             final String employerId
     ) {
         Employee newEmployee = setManagerAndEmployer(toCreate, managerId, employerId);
+        // TODO Duplicate email address exception / Currently empty body
         return employeeRepository.save(newEmployee);
     }
 
@@ -51,27 +52,31 @@ public class EmployeeService {
     ) {
         Employee existingEmployee = findEmployee(id);
         existingEmployee = setManagerAndEmployer(existingEmployee, managerId, employerId);
-        return employeeRepository.
-        return employeeRepository.save(existingEmployee.update(fromRequest));
+        existingEmployee.update(fromRequest);
+        return existingEmployee;
     }
 
     @Transactional
     public Employee deleteEmployee(final Long id) {
         // TODO Remove any references related to collaboration
         final Employee toDelete = findEmployee(id);
+        // TODO Instead of checking reports directly delete employee
+        // and let database handle it similar to employer
         if (toDelete.getReports().size() > 0) {
             // TODO Benefit of extending to ConstraintViolation
             throw new OperationNotAllowedException("Employee still has reports", id.toString());
         }
+        employeeRepository.delete(toDelete);
         return toDelete;
     }
 
     private Employee setManagerAndEmployer(Employee employee, String managerId, String employerId) {
+        // TODO Circular manager loop
         if ( Objects.nonNull(employee.getEmployer()) &&
                 !Long.valueOf(employerId).equals(employee.getEmployer().getId())) {
             // Employee is changing employer
-            System.out.println("Employee is changing employer");
             if (Objects.nonNull(employee.getManager())) {
+                // TODO Not getting reflected in PUT properly
                 for (Employee report: employee.getReports()) {
                     report.setManager(employee.getManager());
                 }
@@ -81,14 +86,12 @@ public class EmployeeService {
                 }
             }
         }
-        // May be changing manager under same employer OR New employee creation
-        System.out.println("May be changing manager under same employer OR New employee creation");
+        // May be changing manager under same employer  New employee creation OR
         if (Objects.nonNull(managerId)) {
             // TODO No Need to introduce new exception, EmployeeNotFound would suffice
             final Employee manager = findEmployee(Long.valueOf(managerId));
             // TODO Optimize this
             if (Long.valueOf(employerId).equals(manager.getEmployer().getId())) {
-                System.out.println("New manager");
                 employee.setManager(manager);
             } else {
                 throw new OperationNotAllowedException("Manager should be from same Employer", employerId);

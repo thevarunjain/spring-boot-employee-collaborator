@@ -54,6 +54,8 @@ public class BaseExceptionHandler {
         if (e instanceof DataIntegrityViolationException
                 || e instanceof javax.validation.ConstraintViolationException
         ) {
+            // TODO Should we send proper body
+            // TODO How do we end up determining these types
             return;
         }
         throw e;

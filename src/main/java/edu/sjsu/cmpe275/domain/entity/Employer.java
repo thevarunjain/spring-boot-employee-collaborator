@@ -29,11 +29,21 @@ public class Employer {
     @Embedded
     private Address address;
 
-    public Employer update(Employer employer) {
-        // TODO Update employer details
-        if (Objects.nonNull(employer.getName())) {
-            this.setName(employer.getName());
+    public void update(Employer fromEmployer) {
+        if (Objects.nonNull(fromEmployer.getName())) {
+            this.setName(fromEmployer.getName());
         }
-        return employer;
+        if (Objects.nonNull(fromEmployer.getDescription())) {
+            this.setDescription(fromEmployer.getDescription());
+        }
+        if (Objects.nonNull(fromEmployer.getAddress())) {
+            Address newAddress = Address.builder()
+                    .street(fromEmployer.getAddress().getStreet())
+                    .city(fromEmployer.getAddress().getCity())
+                    .state(fromEmployer.getAddress().getState())
+                    .zip(fromEmployer.getAddress().getZip())
+                    .build();
+            this.setAddress(newAddress);
+        }
     }
 }

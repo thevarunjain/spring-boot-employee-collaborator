@@ -7,6 +7,7 @@ import org.springframework.stereotype.Component;
 import edu.sjsu.cmpe275.web.model.response.EmployerDto;
 
 import java.util.Map;
+import java.util.Objects;
 
 @Component
 public class EmployerMapper {
@@ -33,11 +34,13 @@ public class EmployerMapper {
     }
 
     private AddressDto mapAddress(final Address address) {
-        return AddressDto.builder()
+        return Objects.nonNull(address)
+                ? AddressDto.builder()
+                .street(address.getStreet())
                 .city(address.getCity())
                 .state(address.getState())
-                .street(address.getStreet())
                 .zip(address.getZip())
-                .build();
+                .build()
+                : AddressDto.builder().build();
     }
 }
