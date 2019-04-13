@@ -30,5 +30,5 @@ public class Address {
 
     @Column(name = "zip")
     @Size(max = 6)
-    private int zip;
+    private String zip;
 }
