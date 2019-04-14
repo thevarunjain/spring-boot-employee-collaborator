@@ -1,5 +1,6 @@
 package edu.sjsu.cmpe275.web;
 
+import edu.sjsu.cmpe275.domain.exception.EmployeeNotFoundException;
 import edu.sjsu.cmpe275.domain.exception.EmployerNotFoundException;
 import edu.sjsu.cmpe275.web.exception.ConstraintViolationException;
 import edu.sjsu.cmpe275.web.exception.OperationNotAllowedException;
@@ -18,7 +19,6 @@ public class BaseExceptionHandler {
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ResponseBody
     public ErrorResponseDto handleException(final ConstraintViolationException e) {
-        // TODO Need to combine ConstraintViolationException and OperationNotAllowedException handler ?
         return new ErrorResponseDto(
                 e.getERROR_CODE(),
                 e.getMessage(),
@@ -27,13 +27,13 @@ public class BaseExceptionHandler {
     }
 
     @ExceptionHandler
-    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ResponseStatus(HttpStatus.NOT_FOUND)
     @ResponseBody
-    public ErrorResponseDto handleException(final OperationNotAllowedException e) {
+    public ErrorResponseDto handleException(final EmployeeNotFoundException e) {
         return new ErrorResponseDto(
                 e.getERROR_CODE(),
                 e.getMessage(),
-                e.getParameter()
+                e.getId().toString()
         );
     }
 
@@ -54,8 +54,6 @@ public class BaseExceptionHandler {
         if (e instanceof DataIntegrityViolationException
                 || e instanceof javax.validation.ConstraintViolationException
         ) {
-            // TODO Should we send proper body
-            // TODO How do we end up determining these types
             return;
         }
         throw e;

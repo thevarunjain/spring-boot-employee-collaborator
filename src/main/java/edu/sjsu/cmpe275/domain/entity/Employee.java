@@ -1,9 +1,6 @@
 package edu.sjsu.cmpe275.domain.entity;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
 import javax.validation.constraints.Email;
@@ -15,7 +12,8 @@ import java.util.Objects;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-@Data
+@Getter
+@Setter
 @Table(name = "employee")
 public class Employee {
     @Id
@@ -48,6 +46,17 @@ public class Employee {
     @OneToMany(mappedBy = "manager")
     private List<Employee> reports;
 
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(
+            name = "collaboration",
+            joinColumns = @JoinColumn(name = "id1"),
+            inverseJoinColumns = @JoinColumn(name = "id2"
+
+            )
+    )
+    private List<Employee> collaborators;
+
+
     public void update(final Employee fromEmployee) {
         if (Objects.nonNull(fromEmployee.getName())) {
             this.setName(fromEmployee.getName());
@@ -67,6 +76,24 @@ public class Employee {
                     .build();
             this.setAddress(newAddress);
         }
+    }
+
+    public void removeCollaborators() {
+
+        getCollaborators().forEach(
+                collaborator -> collaborator.removeCollaborator(this)
+        );
+
+        getCollaborators().clear();
+    }
+
+    public void removeCollaborator(final Employee collaborator) {
+        this.getCollaborators().remove(collaborator);
+    }
+
+    public void addCollaborator(final Employee collaborator) {
+        getCollaborators().add(collaborator);
+        collaborator.addCollaborator(this);
     }
 }
 

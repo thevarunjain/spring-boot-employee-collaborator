@@ -3,8 +3,6 @@ package edu.sjsu.cmpe275.web.exception;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import java.util.Objects;
-
 @NoArgsConstructor
 @Getter
 public class ConstraintViolationException extends RuntimeException {

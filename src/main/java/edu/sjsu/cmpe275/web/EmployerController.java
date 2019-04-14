@@ -3,7 +3,6 @@ package edu.sjsu.cmpe275.web;
 
 import edu.sjsu.cmpe275.domain.entity.Employer;
 import edu.sjsu.cmpe275.service.EmployerService;
-import edu.sjsu.cmpe275.web.exception.ConstraintViolationException;
 import edu.sjsu.cmpe275.web.mapper.EmployerMapper;
 import edu.sjsu.cmpe275.web.model.response.EmployerDto;
 import edu.sjsu.cmpe275.web.util.ValidatorUtil;
