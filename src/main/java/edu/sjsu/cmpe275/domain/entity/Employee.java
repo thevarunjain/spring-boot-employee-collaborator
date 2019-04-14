@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.ManyToAny;
 
 import javax.persistence.*;
 import javax.validation.constraints.Email;
@@ -47,6 +48,18 @@ public class Employee {
 
     @OneToMany(mappedBy = "manager")
     private List<Employee> reports;
+
+    @ManyToMany
+    @JoinTable(
+            name = "collaboration",
+            joinColumns = @JoinColumn(name = "id1"),
+            inverseJoinColumns = @JoinColumn(name = "id2")
+    )
+    private List<Employee> collaborators;
+
+    @ManyToMany(mappedBy = "collaborators")
+    private List<Employee> dummy_collaborator;
+
 
     public void update(final Employee fromEmployee) {
         if (Objects.nonNull(fromEmployee.getName())) {
