@@ -29,11 +29,11 @@ public class CollaboratorController {
     public void createCollaboration(@PathVariable @NotNull Long id1,
                                     @PathVariable @NotNull Long id2) {
         //storing the smaller one in first columns
-        if (id1 > id2) {
-            long temp = id1;
-            id1 = id2;
-            id2 = temp;
-        }
+//        if (id1 > id2) {
+//            long temp = id1;
+//            id1 = id2;
+//            id2 = temp;
+//        }
         collaboratorService.createCollaboration(
                 id1, id2
         );

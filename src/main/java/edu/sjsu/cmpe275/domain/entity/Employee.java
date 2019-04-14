@@ -58,7 +58,7 @@ public class Employee {
     private List<Employee> collaborators;
 
     @ManyToMany(mappedBy = "collaborators")
-    private List<Employee> dummy_collaborator;
+    private List<Employee> dummy_collaborators;
 
 
     public void update(final Employee fromEmployee) {

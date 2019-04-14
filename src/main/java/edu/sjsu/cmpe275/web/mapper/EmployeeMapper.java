@@ -9,10 +9,7 @@ import edu.sjsu.cmpe275.web.model.response.EmployeeDto;
 import edu.sjsu.cmpe275.web.model.response.EmployerDto;
 import org.springframework.stereotype.Component;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Component
@@ -41,6 +38,7 @@ public class EmployeeMapper {
                 .employer(mapEmployer(employee.getEmployer()))
                 .manager(mapManager(employee)) // TODO Changed from employee.getManager()
                 .reports(mapReports(employee.getReports()))
+                .collaborators(mapCollaborators(employee.getCollaborators()))
                 .build();
     }
 
@@ -81,6 +79,20 @@ public class EmployeeMapper {
                         .id(report.getId())
                         .name(report.getName())
                         .title(report.getTitle())
+                        .build()
+                )
+                .collect(Collectors.toList())
+                : new ArrayList<>(); // TODO instead of null
+    }
+
+    private List<AssociatedEmployeeDetailsDto> mapCollaborators(final List<Employee> collaborators) {
+        return Objects.nonNull(collaborators) // TODO Added this
+                ? collaborators
+                .stream()
+                .map(collaborator -> AssociatedEmployeeDetailsDto.builder()
+                        .id(collaborator.getId())
+                        .name(collaborator.getName())
+                        .title(collaborator.getTitle())
                         .build()
                 )
                 .collect(Collectors.toList())

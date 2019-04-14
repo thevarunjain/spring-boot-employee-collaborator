@@ -22,10 +22,11 @@ public class CollaboratorService {
     @Transactional
     public void createCollaboration(long id1, long id2) {
 
-//         TODO If either employee does not exist, return 404.
         final Employee e1 = employeeService.findEmployee(id1);
         final Employee e2 = employeeService.findEmployee(id2);
 
+        e1.getCollaborators().add(e2);
+        e2.getCollaborators().add(e1);
 
 /*//         TODO If the two employees are already collaborators, do nothing, just return 200. Otherwise,
         boolean isPresent = false;
@@ -51,9 +52,6 @@ public class CollaboratorService {
         // TODO  If either employee does not exist, return 404.
         final Employee e1 = employeeService.findEmployee(id1);
         final Employee e2 = employeeService.findEmployee(id2);
-
-
-
 
 /*    // TODO Remove this collaboration relation. Return HTTP code 200 and a meaningful text message if all is successful.
         boolean isPresent = false;
