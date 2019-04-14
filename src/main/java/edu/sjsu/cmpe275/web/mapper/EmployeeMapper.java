@@ -6,7 +6,10 @@ import edu.sjsu.cmpe275.domain.entity.Employer;
 import edu.sjsu.cmpe275.web.model.response.*;
 import org.springframework.stereotype.Component;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 @Component
@@ -33,43 +36,45 @@ public class EmployeeMapper {
                 .title(employee.getTitle())
                 .address(mapAddress(employee.getAddress()))
                 .employer(mapEmployer(employee.getEmployer()))
-                .manager(mapManager(employee)) // TODO Changed from employee.getManager()
+                .manager(mapManager(employee.getManager()))
                 .reports(mapReports(employee.getReports()))
                 .collaborators(mapCollaborators(employee))
                 .build();
     }
 
     private AddressDto mapAddress(final Address address) {
-        // TODO If address has all values null then entire object is null ?
-        return Objects.nonNull(address)
-                ? AddressDto.builder()
+        if (Objects.isNull(address)) {
+            return AddressDto.builder().build();
+        }
+        return AddressDto.builder()
                 .street(address.getStreet())
                 .city(address.getCity())
                 .state(address.getState())
                 .zip(address.getZip())
-                .build()
-                : AddressDto.builder().build(); // TODO Case of Address and Manager is different
+                .build();
     }
 
-    private EmployerDto mapEmployer(final Employer employer) {
-        return EmployerDto.builder()
+    private AssociatedEmployerDetailsDto mapEmployer(final Employer employer) {
+        return AssociatedEmployerDetailsDto.builder()
                 .id(employer.getId())
                 .name(employer.getName())
                 .build();
     }
 
-    private AssociatedEmployeeDetailsDto mapManager(final Employee employee) { // TODO Changed from manager
-        return Objects.nonNull(employee.getManager())
-                ? AssociatedEmployeeDetailsDto.builder()
-                .id(employee.getManager().getId())
-                .name(employee.getManager().getName())
-                .title(employee.getManager().getTitle())
-                .build()
-                : null; // TODO AssociatedEmployeeDetailsDto empty object ?
+    private AssociatedEmployeeDetailsDto mapManager(final Employee manager) {
+        if (Objects.isNull(manager)) {
+            return null;
+        }
+
+        return AssociatedEmployeeDetailsDto.builder()
+                .id(manager.getId())
+                .name(manager.getName())
+                .title(manager.getTitle())
+                .build();
     }
 
     private List<AssociatedEmployeeDetailsDto> mapReports(final List<Employee> employees) {
-        return Objects.nonNull(employees) // TODO Added this
+        return Objects.nonNull(employees)
                 ? employees
                 .stream()
                 .map(report -> AssociatedEmployeeDetailsDto.builder()
@@ -79,11 +84,11 @@ public class EmployeeMapper {
                         .build()
                 )
                 .collect(Collectors.toList())
-                : new ArrayList<>(); // TODO instead of null
+                : new ArrayList<>();
     }
 
     private List<CollaboratorDto> mapCollaborators(final Employee employee) {
-        List <CollaboratorDto> collaborators = Objects.nonNull(employee.getCollaborators())
+        List<CollaboratorDto> collaborators = Objects.nonNull(employee.getCollaborators())
                 ? employee.getCollaborators()
                 .stream()
                 .map(collaborator -> CollaboratorDto.builder()
@@ -99,23 +104,6 @@ public class EmployeeMapper {
                         .build()
                 )
                 .collect(Collectors.toList()) : new ArrayList<>();
-        List <CollaboratorDto> inverseCollaborators = Objects.nonNull(employee.getInverseCollaborators())
-                ? employee.getInverseCollaborators()
-                .stream()
-                .map(collaborator -> CollaboratorDto.builder()
-                        .id(collaborator.getId())
-                        .name(collaborator.getName())
-                        .title(collaborator.getTitle())
-                        .employer(
-                                AssociatedEmployerDetailsDto.builder()
-                                        .id(collaborator.getEmployer().getId())
-                                        .name(collaborator.getEmployer().getName())
-                                        .build()
-                        )
-                        .build()
-                )
-                .collect(Collectors.toList()) : new ArrayList<>();
-        collaborators.addAll(inverseCollaborators);
         return collaborators;
     }
 }

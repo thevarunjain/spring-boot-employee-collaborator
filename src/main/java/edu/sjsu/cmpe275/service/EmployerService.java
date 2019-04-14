@@ -37,18 +37,7 @@ public class EmployerService {
     @Transactional
     public Employer deleteEmployer(final Long id) {
         final Employer toDelete = findEmployer(id);
-        // TODO How to throw OperationNotAllowed exception if replying on database to check
-        // if there is still any employee belonging to this employer
         employerRepository.delete(toDelete);
         return toDelete;
-        // TODO Unable to use below style
-/*        return employerRepository.findById(id)
-                .map(employer -> {
-                    employerRepository.delete(employer);
-                    return employer;
-                })
-                .orElseThrow(() -> new EmployerNotFoundException(id));*/
-
     }
-
 }

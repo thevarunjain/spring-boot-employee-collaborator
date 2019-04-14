@@ -3,7 +3,6 @@ package edu.sjsu.cmpe275.web;
 
 import edu.sjsu.cmpe275.domain.entity.Employer;
 import edu.sjsu.cmpe275.service.EmployerService;
-import edu.sjsu.cmpe275.web.exception.ConstraintViolationException;
 import edu.sjsu.cmpe275.web.mapper.EmployerMapper;
 import edu.sjsu.cmpe275.web.model.response.EmployerDto;
 import edu.sjsu.cmpe275.web.util.ValidatorUtil;
@@ -18,7 +17,6 @@ import java.util.Map;
 @RestController
 @RequestMapping("/employer")
 public class EmployerController {
-    // TODO Handle method not found 405
     private final EmployerService employerService;
     private final EmployerMapper employerMapper;
 

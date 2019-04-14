@@ -11,7 +11,7 @@ import lombok.*;
 @AllArgsConstructor
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class CollaboratorDto {
-    // TODO can we use AssociatedEmployeeDetails here
+
     @JsonProperty("id")
     private long id;
 

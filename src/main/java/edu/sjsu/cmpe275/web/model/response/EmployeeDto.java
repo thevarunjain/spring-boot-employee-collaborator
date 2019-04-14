@@ -30,7 +30,7 @@ public class EmployeeDto {
     private AddressDto address;
 
     @JsonProperty(value = "employer")
-    private EmployerDto employer;
+    private AssociatedEmployerDetailsDto employer;
 
     @JsonProperty(value = "manager")
     private AssociatedEmployeeDetailsDto manager;
