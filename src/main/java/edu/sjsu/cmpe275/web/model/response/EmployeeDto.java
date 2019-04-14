@@ -41,6 +41,6 @@ public class EmployeeDto {
 
     @JsonProperty(value = "collaborators")
     @Singular
-    private List<AssociatedEmployeeDetailsDto> collaborators;
+    private List<CollaboratorDto> collaborators;
 
 }

@@ -27,13 +27,8 @@ public class CollaboratorController {
     @ResponseBody
     @ResponseStatus(HttpStatus.OK)
     public void createCollaboration(@PathVariable @NotNull Long id1,
-                                    @PathVariable @NotNull Long id2) {
-        //storing the smaller one in first columns
-//        if (id1 > id2) {
-//            long temp = id1;
-//            id1 = id2;
-//            id2 = temp;
-//        }
+                                    @PathVariable @NotNull Long id2
+    ) {
         collaboratorService.createCollaboration(
                 id1, id2
         );
@@ -43,14 +38,11 @@ public class CollaboratorController {
     @ResponseBody
     @ResponseStatus(HttpStatus.OK)
     public void deleteEmployee(@PathVariable @NotNull long id1,
-                               @PathVariable @NotNull long id2) {
-        //storing the smaller one in first columns
-        if (id1 > id2) {
-            long temp = id1;
-            id1 = id2;
-            id2 = temp;
-        }
-        collaboratorService.deleteCollaboration(id1, id2);
+                               @PathVariable @NotNull long id2
+    ) {
+        collaboratorService.deleteCollaboration(
+                id1, id2
+        );
     }
 
 }

@@ -3,10 +3,7 @@ package edu.sjsu.cmpe275.web.mapper;
 import edu.sjsu.cmpe275.domain.entity.Address;
 import edu.sjsu.cmpe275.domain.entity.Employee;
 import edu.sjsu.cmpe275.domain.entity.Employer;
-import edu.sjsu.cmpe275.web.model.response.AddressDto;
-import edu.sjsu.cmpe275.web.model.response.AssociatedEmployeeDetailsDto;
-import edu.sjsu.cmpe275.web.model.response.EmployeeDto;
-import edu.sjsu.cmpe275.web.model.response.EmployerDto;
+import edu.sjsu.cmpe275.web.model.response.*;
 import org.springframework.stereotype.Component;
 
 import java.util.*;
@@ -38,7 +35,7 @@ public class EmployeeMapper {
                 .employer(mapEmployer(employee.getEmployer()))
                 .manager(mapManager(employee)) // TODO Changed from employee.getManager()
                 .reports(mapReports(employee.getReports()))
-                .collaborators(mapCollaborators(employee.getCollaborators()))
+                .collaborators(mapCollaborators(employee))
                 .build();
     }
 
@@ -85,17 +82,40 @@ public class EmployeeMapper {
                 : new ArrayList<>(); // TODO instead of null
     }
 
-    private List<AssociatedEmployeeDetailsDto> mapCollaborators(final List<Employee> collaborators) {
-        return Objects.nonNull(collaborators) // TODO Added this
-                ? collaborators
+    private List<CollaboratorDto> mapCollaborators(final Employee employee) {
+        List <CollaboratorDto> collaborators = Objects.nonNull(employee.getCollaborators())
+                ? employee.getCollaborators()
                 .stream()
-                .map(collaborator -> AssociatedEmployeeDetailsDto.builder()
+                .map(collaborator -> CollaboratorDto.builder()
                         .id(collaborator.getId())
                         .name(collaborator.getName())
                         .title(collaborator.getTitle())
+                        .employer(
+                                AssociatedEmployerDetailsDto.builder()
+                                        .id(collaborator.getEmployer().getId())
+                                        .name(collaborator.getEmployer().getName())
+                                        .build()
+                        )
                         .build()
                 )
-                .collect(Collectors.toList())
-                : new ArrayList<>(); // TODO instead of null
+                .collect(Collectors.toList()) : new ArrayList<>();
+        List <CollaboratorDto> inverseCollaborators = Objects.nonNull(employee.getInverseCollaborators())
+                ? employee.getInverseCollaborators()
+                .stream()
+                .map(collaborator -> CollaboratorDto.builder()
+                        .id(collaborator.getId())
+                        .name(collaborator.getName())
+                        .title(collaborator.getTitle())
+                        .employer(
+                                AssociatedEmployerDetailsDto.builder()
+                                        .id(collaborator.getEmployer().getId())
+                                        .name(collaborator.getEmployer().getName())
+                                        .build()
+                        )
+                        .build()
+                )
+                .collect(Collectors.toList()) : new ArrayList<>();
+        collaborators.addAll(inverseCollaborators);
+        return collaborators;
     }
 }
