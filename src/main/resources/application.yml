@@ -1,16 +1,18 @@
+server:
+  port: 5000
 spring:
   application:
     name: socio-collab
-#  datasource:
-#    driverClassName: com.mysql.jdbc.Driver
-#    url: jdbc:mysql://cmpe275-socio-collab.cqvqt3x758kw.us-west-1.rds.amazonaws.com/cmpe275?serverTimezone=America/Los_Angeles
-#    username: thevarunjain
-#    password: Springcmpe275
   datasource:
     driverClassName: com.mysql.jdbc.Driver
-    url: jdbc:mysql://localhost/cmpe275?serverTimezone=America/Los_Angeles
-    username: root
-    password: root
+    url: jdbc:mysql://cmpe275-socio-collab.cqvqt3x758kw.us-west-1.rds.amazonaws.com/cmpe275?serverTimezone=America/Los_Angeles
+    username: thevarunjain
+    password: Springcmpe275
+#  datasource:
+#    driverClassName: com.mysql.jdbc.Driver
+#    url: jdbc:mysql://localhost/cmpe275?serverTimezone=America/Los_Angeles
+#    username: root
+#    password: root
   jpa:
     hibernate.ddl-auto: create-drop
     generate-ddl: true
