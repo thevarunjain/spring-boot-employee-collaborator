@@ -32,12 +32,12 @@ public class EmployeeController {
     }
 
     /***
-     * Creates Employee in system
+     * Creates Employee
      * @param params Request query parameters
      *               name, email and employerId is mandatory
      * @return 200 - Successful creation of employee and returns employee object
      *         400 - Invalid request
-     *         404 - If employer does not exist
+     *         404 - If employee does not exist
      */
 
     @PostMapping(value = "")
@@ -57,9 +57,11 @@ public class EmployeeController {
     }
 
     /***
-     *
+     * Get Employee
      * @param id Employee ID
-     * @return
+     * @return 200 - Successful get of employee and returns employee object
+     *         400 - Invalid request
+     *         404 - If employee does not exist
      */
     @GetMapping(value = "/{id}")
     @ResponseBody
@@ -68,6 +70,15 @@ public class EmployeeController {
         return employeeMapper.map(employeeService.findEmployee(id));
     }
 
+    /***
+     * Update Employee
+     * @param id Employee ID
+     * @param params Request query parameters
+     *               email and employerId is mandatory
+     * @return 200 - Successful update of employee and returns updated employee object
+     *         400 - Invalid request
+     *         404 - If employee does not exist
+     */
     @PutMapping(value = "/{id}")
     @ResponseBody
     @ResponseStatus(HttpStatus.OK)
@@ -86,6 +97,13 @@ public class EmployeeController {
 
     }
 
+    /***
+     *
+     * @param id Employee ID
+     * @return 200 - Successful deletion of employee and returns employee object before deletion
+     *         400 - Invalid request if employee still has reports
+     *         404 - If employee does not exist
+     */
     @DeleteMapping(value = "/{id}")
     @ResponseBody
     @ResponseStatus(HttpStatus.OK)
