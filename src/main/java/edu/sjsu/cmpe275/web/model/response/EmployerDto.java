@@ -4,12 +4,15 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.*;
 
+import javax.xml.bind.annotation.XmlRootElement;
+
 @Builder
 @ToString
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @JsonInclude(JsonInclude.Include.NON_NULL)
+@XmlRootElement
 public class EmployerDto {
 
     @JsonProperty("id")

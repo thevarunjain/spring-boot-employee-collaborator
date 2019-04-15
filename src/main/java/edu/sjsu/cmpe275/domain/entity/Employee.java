@@ -5,6 +5,7 @@ import lombok.*;
 import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotNull;
+import javax.xml.bind.annotation.XmlRootElement;
 import java.util.List;
 import java.util.Objects;
 
@@ -15,6 +16,7 @@ import java.util.Objects;
 @Getter
 @Setter
 @Table(name = "employee")
+@XmlRootElement
 public class Employee {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
