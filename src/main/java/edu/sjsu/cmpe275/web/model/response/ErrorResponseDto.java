@@ -4,8 +4,11 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
+import javax.xml.bind.annotation.XmlRootElement;
+
 @AllArgsConstructor
 @Getter
+@XmlRootElement
 public class ErrorResponseDto {
 
     @JsonProperty("error_code")

@@ -21,7 +21,7 @@ public class CollaboratorController {
     }
 
 
-    @PutMapping(value = "/{id1}/{id2}", produces = "application/json")
+    @PutMapping(value = "/{id1}/{id2}")
     @ResponseBody
     @ResponseStatus(HttpStatus.OK)
     public void createCollaboration(@PathVariable @NotNull Long id1,
@@ -32,7 +32,7 @@ public class CollaboratorController {
         );
     }
 
-    @DeleteMapping(value = "/{id1}/{id2}", produces = "application/json")
+    @DeleteMapping(value = "/{id1}/{id2}")
     @ResponseBody
     @ResponseStatus(HttpStatus.OK)
     public void deleteEmployee(@PathVariable @NotNull long id1,

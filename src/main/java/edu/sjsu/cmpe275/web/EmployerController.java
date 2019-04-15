@@ -29,7 +29,7 @@ public class EmployerController {
         this.employerMapper = employerMapper;
     }
 
-    @PostMapping(value = "", produces = "application/json")
+    @PostMapping(value = "")
     @ResponseBody
     @ResponseStatus(HttpStatus.CREATED)
     public EmployerDto createEmployer(@RequestParam Map<String, String> params) {
@@ -41,14 +41,14 @@ public class EmployerController {
         return employerMapper.map(employer);
     }
 
-    @GetMapping(value = "/{id}", produces = "application/json")
+    @GetMapping(value = "/{id}")
     @ResponseBody
     @ResponseStatus(HttpStatus.OK)
     public EmployerDto getEmployer(@PathVariable @NotNull Long id) {
         return employerMapper.map(employerService.findEmployer(id));
     }
 
-    @PutMapping(value = "/{id}", produces = "application/json")
+    @PutMapping(value = "/{id}")
     @ResponseBody
     @ResponseStatus(HttpStatus.OK)
     public EmployerDto updateEmployer(@PathVariable @NotNull Long id, @RequestParam Map<String, String> params) {
@@ -64,7 +64,7 @@ public class EmployerController {
 
     }
 
-    @DeleteMapping(value = "/{id}", produces = "application/json")
+    @DeleteMapping(value = "/{id}")
     @ResponseBody
     @ResponseStatus(HttpStatus.OK)
     public EmployerDto deleteEmployer(@PathVariable @NotNull long id) {
