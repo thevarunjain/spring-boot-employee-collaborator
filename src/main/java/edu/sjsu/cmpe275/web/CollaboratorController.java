@@ -2,6 +2,7 @@ package edu.sjsu.cmpe275.web;
 
 
 import edu.sjsu.cmpe275.service.EmployeeService;
+import edu.sjsu.cmpe275.web.model.response.SuccessResponseDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -24,23 +25,25 @@ public class CollaboratorController {
     @PutMapping(value = "/{id1}/{id2}", produces = "application/json")
     @ResponseBody
     @ResponseStatus(HttpStatus.OK)
-    public void createCollaboration(@PathVariable @NotNull Long id1,
-                                    @PathVariable @NotNull Long id2
+    public SuccessResponseDto createCollaboration(@PathVariable @NotNull Long id1,
+                                                  @PathVariable @NotNull Long id2
     ) {
         employeeService.createCollaboration(
                 id1, id2
         );
+        return new SuccessResponseDto("Collaboration created successfully");
     }
 
     @DeleteMapping(value = "/{id1}/{id2}", produces = "application/json")
     @ResponseBody
     @ResponseStatus(HttpStatus.OK)
-    public void deleteEmployee(@PathVariable @NotNull long id1,
+    public SuccessResponseDto deleteEmployee(@PathVariable @NotNull long id1,
                                @PathVariable @NotNull long id2
     ) {
         employeeService.deleteCollaboration(
                 id1, id2
         );
+        return new SuccessResponseDto("Collaboration deleted successfully");
     }
 
 }

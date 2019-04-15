@@ -63,7 +63,7 @@ public class EmployeeMapper {
 
     private AssociatedEmployeeDetailsDto mapManager(final Employee manager) {
         if (Objects.isNull(manager)) {
-            return null;
+            return AssociatedEmployeeDetailsDto.builder().build();
         }
 
         return AssociatedEmployeeDetailsDto.builder()
