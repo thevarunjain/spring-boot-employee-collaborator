@@ -29,6 +29,13 @@ public class EmployerController {
         this.employerMapper = employerMapper;
     }
 
+    /***
+     *  Creates Employer
+     * @param params Request query parameters
+     *               name mandatory
+     * @return 200 - Successful creation of employer and returns employer object
+     *         400 - Invalid request
+     */
     @PostMapping(value = "")
     @ResponseBody
     @ResponseStatus(HttpStatus.CREATED)
@@ -41,6 +48,13 @@ public class EmployerController {
         return employerMapper.map(employer);
     }
 
+    /***
+     * Get Employer
+     * @param id Employer ID
+     * @return 200 - Successful get of employer and returns employer object
+     *         400 - Invalid request
+     *         404 - If employee does not exist
+     */
     @GetMapping(value = "/{id}")
     @ResponseBody
     @ResponseStatus(HttpStatus.OK)
@@ -48,6 +62,15 @@ public class EmployerController {
         return employerMapper.map(employerService.findEmployer(id));
     }
 
+    /***
+     * Updates Employer
+     * @param id Employer ID
+     * @param params Request query parameters
+     *               name is mandatory
+     * @return 200 - Successful update of employer and returns updated employer object
+     *         400 - Invalid request
+     *         404 - If employer does not exist
+     */
     @PutMapping(value = "/{id}")
     @ResponseBody
     @ResponseStatus(HttpStatus.OK)
@@ -64,6 +87,13 @@ public class EmployerController {
 
     }
 
+    /***
+     * Deletes Employer
+     * @param id Employer ID
+     * @return 200 - Successful deletion of employer and returns employer object before deletion
+     *         400 - Invalid request if employer still has employees
+     *         404 - If employer does not exist
+     */
     @DeleteMapping(value = "/{id}")
     @ResponseBody
     @ResponseStatus(HttpStatus.OK)
