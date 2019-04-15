@@ -31,6 +31,14 @@ public class EmployeeController {
         this.employeeMapper = employeeMapper;
     }
 
+    /***
+     * Creates Employee in system
+     * @param params Request query parameters
+     *               name, email and employerId is mandatory
+     * @return 200 - Successful creation of employee and returns employee object
+     *         400 - Invalid request
+     *         404 - If employer does not exist
+     */
     @PostMapping(value = "", produces = "application/json")
     @ResponseBody
     @ResponseStatus(HttpStatus.CREATED)
@@ -47,6 +55,11 @@ public class EmployeeController {
         return employeeMapper.map(createdEmployee);
     }
 
+    /***
+     *
+     * @param id Employee ID
+     * @return
+     */
     @GetMapping(value = "/{id}", produces = "application/json")
     @ResponseBody
     @ResponseStatus(HttpStatus.OK)

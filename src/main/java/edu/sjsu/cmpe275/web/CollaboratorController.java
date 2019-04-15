@@ -21,7 +21,13 @@ public class CollaboratorController {
         this.employeeService = employeeService;
     }
 
-
+    /***
+     * Creates collaboration between the two employees with the given IDs
+     * @param id1 Employee ID for creating collaboration
+     * @param id2 Employee ID for creating collaboration
+     * @return 200 Success message after successful collaboration creation
+     *         404 If employee does not exist
+     */
     @PutMapping(value = "/{id1}/{id2}", produces = "application/json")
     @ResponseBody
     @ResponseStatus(HttpStatus.OK)
@@ -34,6 +40,13 @@ public class CollaboratorController {
         return new SuccessResponseDto("Collaboration created successfully");
     }
 
+    /***
+     * Removes collaboration between the two employees with the given IDs
+     * @param id1 Employee ID for removing collaboration
+     * @param id2 Employee ID for removing collaboration
+     * @return 200 Success message after successful collaboration removal
+     *         404 If employee does not exist
+     */
     @DeleteMapping(value = "/{id1}/{id2}", produces = "application/json")
     @ResponseBody
     @ResponseStatus(HttpStatus.OK)
