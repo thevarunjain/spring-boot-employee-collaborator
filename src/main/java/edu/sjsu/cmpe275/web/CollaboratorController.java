@@ -28,7 +28,7 @@ public class CollaboratorController {
      * @return 200 Success message after successful collaboration creation
      *         404 If employee does not exist
      */
-    @PutMapping(value = "/{id1}/{id2}", produces = "application/json")
+    @PutMapping(value = "/{id1}/{id2}")
     @ResponseBody
     @ResponseStatus(HttpStatus.OK)
     public SuccessResponseDto createCollaboration(@PathVariable @NotNull Long id1,
@@ -47,7 +47,7 @@ public class CollaboratorController {
      * @return 200 Success message after successful collaboration removal
      *         404 If employee does not exist
      */
-    @DeleteMapping(value = "/{id1}/{id2}", produces = "application/json")
+    @DeleteMapping(value = "/{id1}/{id2}")
     @ResponseBody
     @ResponseStatus(HttpStatus.OK)
     public SuccessResponseDto deleteEmployee(@PathVariable @NotNull long id1,

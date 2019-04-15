@@ -39,7 +39,8 @@ public class EmployeeController {
      *         400 - Invalid request
      *         404 - If employer does not exist
      */
-    @PostMapping(value = "", produces = "application/json")
+
+    @PostMapping(value = "")
     @ResponseBody
     @ResponseStatus(HttpStatus.CREATED)
     public EmployeeDto createEmployee(@RequestParam Map<String, String> params) {
@@ -60,14 +61,14 @@ public class EmployeeController {
      * @param id Employee ID
      * @return
      */
-    @GetMapping(value = "/{id}", produces = "application/json")
+    @GetMapping(value = "/{id}")
     @ResponseBody
     @ResponseStatus(HttpStatus.OK)
     public EmployeeDto getEmployee(@PathVariable @NotNull Long id) {
         return employeeMapper.map(employeeService.findEmployee(id));
     }
 
-    @PutMapping(value = "/{id}", produces = "application/json")
+    @PutMapping(value = "/{id}")
     @ResponseBody
     @ResponseStatus(HttpStatus.OK)
     public EmployeeDto updateEmployee(@PathVariable @NotNull Long id, @RequestParam Map<String, String> params) {
@@ -85,7 +86,7 @@ public class EmployeeController {
 
     }
 
-    @DeleteMapping(value = "/{id}", produces = "application/json")
+    @DeleteMapping(value = "/{id}")
     @ResponseBody
     @ResponseStatus(HttpStatus.OK)
     public EmployeeDto deleteEmployee(@PathVariable @NotNull long id) {

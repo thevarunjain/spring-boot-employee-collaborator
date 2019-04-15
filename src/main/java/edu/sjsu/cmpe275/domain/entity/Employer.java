@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import javax.xml.bind.annotation.XmlRootElement;
 import java.util.Objects;
 
 @Entity
@@ -14,6 +15,7 @@ import java.util.Objects;
 @NoArgsConstructor
 @Builder
 @Data
+@XmlRootElement
 public class Employer {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
