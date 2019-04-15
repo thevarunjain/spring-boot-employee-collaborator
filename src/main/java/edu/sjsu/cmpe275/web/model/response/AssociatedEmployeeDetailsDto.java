@@ -16,6 +16,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 public class AssociatedEmployeeDetailsDto {
 
     @JsonProperty("id")
+    @JsonInclude(JsonInclude.Include.NON_DEFAULT)
     private long id;
 
     @JsonProperty("name")

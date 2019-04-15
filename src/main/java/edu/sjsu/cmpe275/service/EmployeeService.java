@@ -61,10 +61,10 @@ public class EmployeeService {
         if (toDelete.getReports().size() > 0) {
             throw new OperationNotAllowedException("Employee still has reports", id.toString());
         }
+        Employee beforeDelete = new Employee(toDelete);
         toDelete.removeCollaborators();
         employeeRepository.delete(toDelete);
-
-        return toDelete;
+        return beforeDelete;
     }
 
     @Transactional
@@ -74,6 +74,7 @@ public class EmployeeService {
         final Employee e2 = findEmployee(id2);
 
         e1.addCollaborator(e2);
+        e2.addCollaborator(e1);
     }
 
 

@@ -5,6 +5,7 @@ import lombok.*;
 import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotNull;
+import java.util.ArrayList;
 import javax.xml.bind.annotation.XmlRootElement;
 import java.util.List;
 import java.util.Objects;
@@ -94,8 +95,23 @@ public class Employee {
     }
 
     public void addCollaborator(final Employee collaborator) {
-        getCollaborators().add(collaborator);
-        collaborator.addCollaborator(this);
+        if (!this.getCollaborators().contains(collaborator))
+            this.getCollaborators().add(collaborator);
+    }
+
+    public Employee(Employee employee) {
+        this.id = employee.getId();
+        this.name = employee.getName();
+        this.email = employee.getEmail();
+        this.title = employee.getTitle();
+        this.address = employee.getAddress();
+        this.employer = employee.getEmployer();
+        this.manager = employee.getManager();
+        this.reports = employee.getReports();
+        this.collaborators = new ArrayList<>();
+        for (Employee emp: employee.getCollaborators()) {
+            this.collaborators.add(emp);
+        }
     }
 }
 
