@@ -37,7 +37,7 @@ public class EmployeeController {
      *               name, email and employerId is mandatory
      * @return 200 - Successful creation of employee and returns employee object
      *         400 - Invalid request
-     *         404 - If employee does not exist
+     *         404 - If employer does not exist
      */
 
     @PostMapping(value = "")
